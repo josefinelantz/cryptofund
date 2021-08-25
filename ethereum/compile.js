@@ -34,12 +34,10 @@ const input = {
 	// Compile contracts in Campaign.sol with solidity compiler 
 	const output = JSON.parse(solc.compile(JSON.stringify(input)));
 
-	// Write output to build directory
+	// Create build directory if not exists
 	fileSystem.ensureDirSync(buildPath);
 
-	// fileSystem.outputJsonSync(path.resolve(buildPath, output))
-
-	//console.log(output.contracts)
+	// Write output to build directory
 	for (let contract in output.contracts["Campaign.sol"]) {
 		fileSystem.outputJsonSync(path.resolve(buildPath, contract + ".json"), output.contracts["Campaign.sol"][contract]
 	);
