@@ -71,4 +71,18 @@ describe("Campaigns", () => {
 		});
 		assert(isContributor);
 	});
+
+	it("requires a minimum contribution", async () => {
+		try {
+			await campaign.methods.contribute().send({
+				value: "5",
+				from: accounts[1],
+				gas: 1500000,
+    		gasPrice: "30000000000000"
+			});
+			assert(false);
+		} catch (err) {
+			assert(err);
+		}
+	});
 });
