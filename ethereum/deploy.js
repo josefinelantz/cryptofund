@@ -12,6 +12,7 @@ let provider = new HDWalletProvider({
 	pollingInterval: 8000
 });
 
+
 const web3 = new Web3(provider);
 
 const deploy = async() => {
