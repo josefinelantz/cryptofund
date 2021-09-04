@@ -15,6 +15,7 @@ state = {
 onSubmit = async (event) => {
 	event.preventDefault();
 	this.setState({ loading: true, errorMessage:"" })
+	
 	try {
 		const accounts = await web3.eth.getAccounts();
 	await factory.methods
@@ -22,6 +23,7 @@ onSubmit = async (event) => {
 		.send({
 			from: accounts[0]
 		});
+		Router.pushRoute("/");
 	} catch (err) {
 		this.setState({ errorMessage: err.message });
 	}
