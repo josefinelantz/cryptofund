@@ -5,11 +5,14 @@ import Layout from "../components/Layout";
 import { Link } from "../routes";
 
 class CampaignIndex extends React.Component {
+	/**
+	 * Next executes getInitialProps which 
+	 * returns initial data. The initial data * is provided to the CampaignIndex 
+	 * component as props.  
+	 * rendering the component
+	 */
 	static async getInitialProps() {
-		const campaigns = await factory.methods.getDeployedCampaigns().call({ 
-			gas: 1500000,
-  		gasPrice: "30000000000000"
-		})
+		const campaigns = await factory.methods.getDeployedCampaigns().call()
 		return { campaigns };
 	}
 
