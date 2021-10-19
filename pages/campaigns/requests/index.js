@@ -11,7 +11,7 @@ class RequestIndex extends React.Component {
 		const { address } = props.query;
 		const campaign = Campaign(address);
 		const requestCount = await campaign.methods.getRequestsCount().call();
-		
+		const approversCount = await campaign.methods.approversCount().call();
 		/**
 		 * request method retrieves an individual request
 		 Fill and map helps create a list or rather an Array of requests. 
@@ -23,15 +23,17 @@ class RequestIndex extends React.Component {
 					return campaign.methods.requests(index).call();
 			})
 		);
-		return { address, requests, requestCount };
+		return { address, requests, requestCount, approversCount };
 	}
 
-	renderRow() {
+	renderRows() {
 		return this.props.requests.map((request, index) => {
 			return (<RequestRow
 				key={index}
+				id={index}
 				request={request}
 				address={this.props.address}
+				approversCount={this.props.approversCount}
 			/>
 		);
 	});
@@ -65,7 +67,7 @@ class RequestIndex extends React.Component {
 						</Row>
 					</Header>
 					<Body>
-						{this.renderRow()}
+						{this.renderRows()}
 					</Body>
 				</Table>
 			</Layout>
