@@ -19,9 +19,9 @@ class CampaignIndex extends React.Component {
 	renderCampaigns() {
 		const items = this.props.campaigns.map(address => {
 			return {
-				header: address,
+				header: address.toLowerCase(),
 				description: (
-				<Link route={`/campaigns/${address}`}>
+				<Link route={`/campaigns/${address.toLowerCase()}`}>
 					<a>View Campaign</a>
 				</Link>
 				),
