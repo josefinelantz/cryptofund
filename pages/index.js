@@ -12,7 +12,7 @@ class CampaignIndex extends React.Component {
 	 * rendering the component
 	 */
 	static async getInitialProps() {
-		const campaigns = await factory.methods.getDeployedCampaigns().call()
+		const campaigns = await factory.methods.getDeployedCampaigns().call();
 		return { campaigns };
 	}
 
