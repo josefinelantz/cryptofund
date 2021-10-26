@@ -3,13 +3,17 @@
 pragma solidity >=0.7.0 <0.9.0;
 
 contract CampaignFactory {
+    // Array that holds all deployed campaigns as structs. 
     address[] public deployedCampaigns;
     
+    // Function to create new campaign. 
+    // Parameter is minimum amount to contribute. 
     function createCampaign(uint minimum) public payable {
        address newCampaign = address(new Campaign(minimum, msg.sender));
        deployedCampaigns.push(newCampaign);
     }
     
+    // Gets all deployed campaigns from storage
     function getDeployedCampaigns() public view returns (address[] memory) {
         return deployedCampaigns;
     }
@@ -22,15 +26,20 @@ contract Campaign {
         uint value;
         address recipient;
         bool complete;
-        uint approvalCount;
-        mapping(address => bool) approvals;
+        uint approvalCount; // Number of contributors approved this request
+        mapping(address => bool) approvals; // All contributors and true if approved
     }
     uint numRequests = 0;
     
+    // Mapping to hold all requests
     mapping(uint => Request) public requests;
+    // Address to campaign manager, i.e creator of the campaign
     address public manager;
+    // Minimum amount to contribute
     uint public minimumContribution;
+    // Mapping to hold contributors
     mapping(address => bool) public approvers;
+    // Count of contributors
     uint public approversCount;
     
     modifier restricted() {
@@ -49,6 +58,7 @@ contract Campaign {
         approversCount++;
     }
     
+    // Create expense request, only manager of campaign can do this
     function createRequest(string calldata description, uint value, address recipient) public payable restricted {
         Request storage newRequest = requests[numRequests++];
         newRequest.id = numRequests;
@@ -59,6 +69,7 @@ contract Campaign {
         newRequest.approvalCount = 0;
     }
     
+    // Approve request for campaign
     function approveRequest(uint id) public payable {
         Request storage req = requests[id];
         // Person has contributed
@@ -69,6 +80,7 @@ contract Campaign {
         req.approvalCount++;
     }
     
+    // Finalize request, i.e pay out
     function finalizeRequest(uint id) public payable restricted {
         Request storage req = requests[id];
         // Not already finalized
@@ -80,6 +92,7 @@ contract Campaign {
         payable (req.recipient).transfer(req.value);
     }
     
+    // Get campaign summary
     function getSummary() public view returns (uint, uint, uint, uint, address) {
         return (
             minimumContribution, 
@@ -90,6 +103,7 @@ contract Campaign {
         );
     }
 
+    // Get number of requests for campaign
     function getRequestsCount() public view returns (uint) {
         return numRequests;
     }
