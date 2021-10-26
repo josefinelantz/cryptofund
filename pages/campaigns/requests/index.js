@@ -49,6 +49,8 @@ class RequestIndex extends React.Component {
 					<a>
 						<Button
 							primary
+							floated="right"
+							style={{ marginBottom: 10 }}
 						>
 							Add Request
 						</Button>
@@ -70,6 +72,7 @@ class RequestIndex extends React.Component {
 						{this.renderRows()}
 					</Body>
 				</Table>
+				<div> Found { this.props.requestCount } requests.</div>
 			</Layout>
 			
 		);
